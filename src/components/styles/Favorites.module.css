@@ -1,0 +1,51 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: transparent;
+    font-family: Arial, sans-serif;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+  }
+  
+  .deleteBtn {
+    display: block;
+    margin: 0 auto 1.5rem auto;
+    padding: 0.75rem 1.5rem;
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .deleteBtn:hover {
+    background-color: #c82333;
+  }
+  
+  .status {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    color: #555;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  /* Grid layout similar to NewsSearch */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  

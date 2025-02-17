@@ -1,0 +1,210 @@
+.articleDetailContainer {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #333;
+  }
+  
+  .image {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .content {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+  
+  .sourceLink {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .sourceLink:hover {
+    color: #0056b3;
+  }
+  
+  /* Favorite Section Styles */
+  .favoriteSection {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .favoriteBtn {
+    padding: 0.75rem 1.5rem;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-sizing: border-box;
+  }
+  
+  .favoriteBtn:hover {
+    background-color: #0056b3;
+  }
+  
+  .favoriteStatus {
+    font-size: 1rem;
+    color: #28a745;
+  }
+  
+  /* Comments Section */
+  .commentsSection {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .commentsTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .commentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .commentInput {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .commentSubmit {
+    align-self: flex-end;
+    padding: 0.75rem 1.5rem;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-sizing: border-box;
+  }
+  
+  .commentSubmit:hover {
+    background-color: #0056b3;
+  }
+  
+  .commentsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .commentItem {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.75rem;
+  }
+  
+  .commentAuthor {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 0.25rem;
+  }
+  
+  .commentText {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+  }
+  
+  .commentTimestamp {
+    font-size: 0.8rem;
+    color: #777;
+  }
+  
+  .commentActions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .editBtn,
+  .deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s;
+  }
+  
+  .editBtn:hover,
+  .deleteBtn:hover {
+    color: #0056b3;
+  }
+  
+  .editSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .editInput {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .saveBtn,
+  .cancelBtn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+  }
+  
+  .saveBtn {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .saveBtn:hover {
+    background-color: #218838;
+  }
+  
+  .cancelBtn {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .cancelBtn:hover {
+    background-color: #c82333;
+  }
+  
+  .error {
+    color: red;
+  }
+  

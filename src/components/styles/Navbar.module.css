@@ -1,0 +1,58 @@
+.navbar {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure that each list item aligns its children */
+.navLinks li {
+  display: flex;
+  align-items: center;
+}
+
+/* Combine styles for links and buttons */
+.navLinks li a,
+.logoutBtn {
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: color 0.2s;
+  font: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  /* Use inline-flex to ensure vertical centering */
+  display: inline-flex;
+  align-items: center;
+}
+
+.navLinks li a:hover,
+.logoutBtn:hover {
+  color: #007bff;
+}
