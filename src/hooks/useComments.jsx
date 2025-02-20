@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../api.jsx';
+import api from '../api';
 
 const useComments = (articleId) => {
   const [comments, setComments] = useState([]);

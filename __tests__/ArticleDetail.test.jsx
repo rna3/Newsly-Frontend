@@ -2,9 +2,18 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ArticleDetail from '../src/components/ArticleDetail';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { AuthContext } from '../src/context/AuthContext';
 import useComments from '../src/hooks/useComments';
 
 jest.mock('../src/hooks/useComments');
+
+const fakeAuthContextValue = {
+  user: { id: 1, email: 'test@example.com' },
+  isAuthenticated: true,
+  login: jest.fn(),
+  logout: jest.fn(),
+  fetchUser: jest.fn(),
+};
 
 describe('ArticleDetail Component', () => {
   const fakeArticle = {
@@ -31,18 +40,20 @@ describe('ArticleDetail Component', () => {
 
   it('renders article details', () => {
     render(
-      <MemoryRouter
-        initialEntries={[
-          {
-            pathname: `/article/${encodeURIComponent(fakeArticle.url)}`,
-            state: { article: fakeArticle },
-          },
-        ]}
-      >
-        <Routes>
-          <Route path="/article/:id" element={<ArticleDetail />} />
-        </Routes>
-      </MemoryRouter>
+      <AuthContext.Provider value={fakeAuthContextValue}>
+        <MemoryRouter
+          initialEntries={[
+            {
+              pathname: `/article/${encodeURIComponent(fakeArticle.url)}`,
+              state: { article: fakeArticle },
+            },
+          ]}
+        >
+          <Routes>
+            <Route path="/article/:id" element={<ArticleDetail />} />
+          </Routes>
+        </MemoryRouter>
+        </AuthContext.Provider>
     );
     // Now it should find the text from fakeArticle.
     expect(screen.getByText(/Test Article/i)).toBeInTheDocument();

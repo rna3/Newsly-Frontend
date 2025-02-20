@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from '../api.jsx';
+import api from '../api';
 import { Link } from 'react-router-dom';
 import styles from './styles/NewsSearch.module.css';
 
