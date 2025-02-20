@@ -1,54 +1,46 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { jwtDecode as jwt_decode } from 'jwt-decode';
+import api from '../../src/api.jsx';
 
-// Create a context for authentication
 export const AuthContext = createContext();
 
-// Provider component to wrap your app and provide auth state and functions
 export const AuthProvider = ({ children }) => {
-  // Initialize state based on whether a token exists in localStorage
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Login function to store token and update auth state
-  const login = (token) => {
-    localStorage.setItem('token', token);
-    setIsAuthenticated(true);
-  };
-
-  // Logout function to remove token and update auth state
-  const logout = () => {
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-  };
-
-  // Check token validity on mount.
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const decoded = jwt_decode(token);
-        // Check if token is expired. JWT "exp" is in seconds; multiply by 1000 to compare with Date.now().
-        if (decoded.exp * 1000 < Date.now()) {
-          logout();
-        }
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        logout();
-      }
+  // Fetch current user info using /auth/me endpoint
+  const fetchUser = async () => {
+    try {
+      const res = await api.get('/auth/me');
+      setUser(res.data.user);
+      setIsAuthenticated(true);
+    } catch (error) {
+      setUser(null);
+      setIsAuthenticated(false);
     }
+  };
+
+  useEffect(() => {
+    fetchUser();
   }, []);
 
-  // Listen to storage changes if multiple tabs are open:
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setIsAuthenticated(!!localStorage.getItem('token'));
-    };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+  const login = () => {
+    // After a successful login, cookies are set, so fetch the user info.
+    fetchUser();
+  };
+
+  const logout = async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch (error) {
+      console.error(error);
+    }
+    setUser(null);
+    setIsAuthenticated(false);
+    alert("You have been logged out successfully.");
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout, fetchUser }}>
       {children}
     </AuthContext.Provider>
   );

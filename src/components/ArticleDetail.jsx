@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import api from '../api.jsx';
-import { jwtDecode as jwt_decode } from 'jwt-decode';
+import api from '../api';
 import useComments from '../hooks/useComments';
+import { AuthContext } from '../context/AuthContext';
 import styles from './styles/ArticleDetail.module.css';
 
 const ArticleDetail = () => {
-  // Get the encoded article URL from the route parameter and decode it.
+  // Get the article URL from the route parameter and decode it.
   const { id } = useParams();
   const decodedUrl = decodeURIComponent(id);
   const article = useLocation().state?.article || { url: decodedUrl };
   const uniqueArticleId = article.url || decodedUrl;
 
-  // Use custom hook and state to manage comments.
+  // Manage comments using the custom hook.
   const { comments, loading, error, postComment, updateComment, deleteComment } = useComments(uniqueArticleId);
   const [newComment, setNewComment] = useState('');
   const [editingCommentId, setEditingCommentId] = useState(null);
@@ -22,17 +22,8 @@ const ArticleDetail = () => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [favoriteStatus, setFavoriteStatus] = useState('');
 
-  // Decode the token to obtain current user's id.
-  const token = localStorage.getItem('token');
-  let currentUserId = null;
-  if (token) {
-    try {
-      const decoded = jwt_decode(token);
-      currentUserId = decoded.id; 
-    } catch (error) {
-      console.error('Error decoding token:', error);
-    }
-  };
+  // Get current user from AuthContext.
+  const { user } = useContext(AuthContext);
 
   // Check if the article is already favorited.
   useEffect(() => {
@@ -44,42 +35,36 @@ const ArticleDetail = () => {
         );
         if (alreadyFavorited) {
           setIsFavorited(true);
-          setFavoriteStatus('Already in favorites');
+          setFavoriteStatus('Article is in your favorites');
         }
       } catch (error) {
         console.error('Error checking favorite status:', error);
       }
     };
-
-    if (token) {
-      checkFavoriteStatus();
-    }
-  }, [uniqueArticleId, token]);
+    checkFavoriteStatus();
+  }, [uniqueArticleId]);
 
   // Handler for favoriting the article.
   const handleFavorite = async () => {
     try {
-      await api.post(
-        'http://localhost:5000/api/favorites',
-        {
-          article_id: uniqueArticleId,
-          title: article.title,
-          url: article.url,
-          image_url: article.urlToImage || article.image_url,
-          published_at: article.publishedAt,
-          source_name: article.source?.name,
-          content: article.content || article.description || '',
-        },
-      );
+      await api.post('/favorites', {
+        article_id: uniqueArticleId,
+        title: article.title,
+        url: article.url,
+        image_url: article.urlToImage || article.image_url,
+        published_at: article.publishedAt,
+        source_name: article.source?.name,
+        content: article.content || article.description || '',
+      });
       setIsFavorited(true);
-      setFavoriteStatus('Article favorited!');
+      setFavoriteStatus('Article is in your favorites');
     } catch (error) {
       console.error('Error favoriting article:', error);
       setFavoriteStatus('Failed to favorite article');
     }
   };
 
-  // Handler for submitting a new comment using our custom hook.
+  // Handler for submitting a new comment.
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -141,6 +126,7 @@ const ArticleDetail = () => {
         Read more at {article.source?.name || 'source'}
       </a>
       
+      {/* Favorite Section */}
       <div className={styles.favoriteSection}>
         {!isFavorited ? (
           <button className={styles.favoriteBtn} onClick={handleFavorite}>
@@ -186,10 +172,7 @@ const ArticleDetail = () => {
                       onChange={(e) => setEditedCommentText(e.target.value)}
                       rows="3"
                     />
-                    <button
-                      onClick={() => handleSaveEdit(comment.id)}
-                      className={styles.saveBtn}
-                    >
+                    <button onClick={() => handleSaveEdit(comment.id)} className={styles.saveBtn}>
                       Save
                     </button>
                     <button
@@ -208,7 +191,7 @@ const ArticleDetail = () => {
                 <p className={styles.commentTimestamp}>
                   {new Date(comment.created_at).toLocaleString()}
                 </p>
-                {currentUserId && comment.user_id === currentUserId && editingCommentId !== comment.id && (
+                {user && comment.user_id === user.id && editingCommentId !== comment.id && (
                   <div className={styles.commentActions}>
                     <button
                       onClick={() => handleEdit(comment.id, comment.comment)}
@@ -216,10 +199,7 @@ const ArticleDetail = () => {
                     >
                       Edit
                     </button>
-                    <button
-                      onClick={() => handleDeleteComment(comment.id)}
-                      className={styles.deleteBtn}
-                    >
+                    <button onClick={() => handleDeleteComment(comment.id)} className={styles.deleteBtn}>
                       Delete
                     </button>
                   </div>

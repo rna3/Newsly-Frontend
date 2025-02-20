@@ -62,6 +62,9 @@ const Signup = () => {
           className={styles.input}
           required
         />
+        <p className={styles.passwordRequirements}>
+          Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.
+        </p>
         <button type="submit" className={styles.submitBtn}>
           Signup
         </button>
