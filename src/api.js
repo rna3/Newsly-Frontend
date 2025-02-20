@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { getNavigate } from './navigation';
 
-const baseURL = process.env.VITE_API_URL || 'http://localhost:5000/api';
+//may need to use process.env.VITE_API_URL when testing with Jest
+const baseURL = import.meta.env.VITE_API_URL  || 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL,
